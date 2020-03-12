@@ -100,9 +100,17 @@
         case 'Aviation': return {color: '#0089FF', weight: 3};
         case 'BikePed': return {color: '#9667FF', weight: 3};
         case 'H': return {color: '#f54242', weight: 3};
-        case 'Highway or Bike/Ped': return {color: '#EC5200', weight: 3};
+        case 'Highway or Bike/Ped': return {color: '#ec7a00', weight: 3};
       }
-    }
+    };
+
+    var highlight = {
+      'color': '#333333',
+      'weight': 2,
+      'opacity': 1
+    };
+
+
 
     var spot = new L.GeoJSON.AJAX("data/spot6.geojson", {
       style: spotStyle,
@@ -112,7 +120,6 @@
           '<b>' + 'Project Category : ' + '</b>' + feature.properties.Project_Category + '<br>' +
           '<b>' + 'Improvement Type : ' + '</b>' + feature.properties.Improvement_Type + '<br>' +
           '<b>' + 'Description : ' + '</b>' + feature.properties.Description + '<br>'
-
         )
       }
     });
@@ -134,10 +141,6 @@
     //L.control.layers(overlays).addTo(map);
     //L.control.locate().addTo(map);
 
-
-
-
-
     var searchControl = new L.Control.Search({
 		      layer: spot,
           textPlaceholder: 'Search by Local Key or SPOT ID',
@@ -149,6 +152,54 @@
 		      }
 	  });
     map.addControl(searchControl);
+
+    var htmlLegend = L.control.htmllegend({
+        position: 'bottomright',
+        legends: [{
+            name: 'Transportation Mode Key',
+            layer: spot,
+            elements: [{
+                label: 'Aviation',
+                html: '',
+                style: {
+                    'background-color': '#0089FF',
+                    'width': '10px',
+                    'height': '10px'
+                }
+            }, {
+                label: 'Bike/Ped',
+                html: '',
+                style: {
+                    'background-color': '#9667FF',
+                    'width': '10px',
+                    'height': '10px'
+                }
+            },{
+                label: 'Highway',
+                html: '',
+                style: {
+                    'background-color': '#f54242',
+                    'width': '10px',
+                    'height': '10px'
+                }
+              },{
+                  label: 'Highway or Bike/Ped',
+                  html: '',
+                  style: {
+                      'background-color': '#ec7a00',
+                      'width': '10px',
+                      'height': '10px'
+                  }
+            }]
+        }],
+        collapseSimple: true,
+        detectStretched: true,
+        collapsedOnInit: true,
+        defaultOpacity: 0.7,
+        visibleIcon: 'icon icon-eye',
+        hiddenIcon: 'icon icon-eye-slash'
+    })
+    map.addControl(htmlLegend)
 
 
 
